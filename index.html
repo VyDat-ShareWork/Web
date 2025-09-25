@@ -3,22 +3,22 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>EVIBEAI - DASHBOARD</title>
+    <title>Sensor Data Overview · HiveMQ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <style>
         :root {
-            --bg: #f6f8fb70;
+            --bg: #f6f8fb;
             --fg: #2c3e50;
             --card: #fff;
-            --brand: #219bffb0;
+            --brand: #00447a;
             --muted: #6b7a8c;
-            --success: #02ff3d;
+            --success: #155724;
             --success-bg: #d4edda;
-            --warn: #ffca2b;
+            --warn: #856404;
             --warn-bg: #fff3cd;
-            --danger: #c40014;
+            --danger: #721c24;
             --danger-bg: #f8d7da;
         }
 
@@ -88,7 +88,7 @@
             margin-top: 8px;
             padding: 4px 10px;
             border-radius: 999px;
-            font-size: 16px;
+            font-size: 12px;
             font-weight: 700;
         }
 
@@ -152,7 +152,7 @@
 
         .system-status h3 {
             margin: 0 0 12px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: #34495e;
             border-bottom: 1px solid #eee;
@@ -164,7 +164,7 @@
             justify-content: space-between;
             align-items: center;
             margin: 6px 0;
-            font-size: 18px
+            font-size: 14px
         }
 
         .status-row .label {
@@ -175,17 +175,17 @@
         /* Status color variants used inside the status box */
         .status-normal {
             background: #d4edda;
-            color: #02ff3d
+            color: #155724
         }
 
         .status-warning {
             background: #fff3cd;
-            color: #ffc002
+            color: #856404
         }
 
         .status-fault {
             background: #f8d7da;
-            color: #ff0019
+            color: #721c24
         }
 
         /* CHARTS GRID (single source of truth) */
@@ -278,7 +278,7 @@
 </head>
 
 <body>
-<header><br>EVIBEAI - DASHBOARD</header>
+    <header>Sensor Data Overview · HiveMQ</header>
 
     <main class="page">
         <section class="kpis">
@@ -376,7 +376,7 @@
 
         const freqChart = new Chart(document.getElementById("freqChart"), {
             type: "bar",
-            data: { labels: [], datasets: [{ data: [], label: "Magnitude", backgroundColor: "#f8b55d", barPercentage: 0.4, categoryPercentage: 0.6 }] },
+            data: { labels: [], datasets: [{ data: [], label: "Magnitude", backgroundColor: "#ffb347", barPercentage: 0.4, categoryPercentage: 0.6 }] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
         });
 
@@ -414,7 +414,7 @@
         const options = { username: "hieuvm", password: "Hieu1234@!", protocol: "wss" };
         const client = mqtt.connect(brokerUrl, options);
 
-        client.on("connect", () => { console.log("Connected to HiveMQ Cloud"); client.subscribe("#"); });
+        client.on("connect", () => { console.log("✅ Connected to HiveMQ Cloud"); client.subscribe("#"); });
         client.on("message", (_topic, msg) => {
             try { const data = JSON.parse(msg.toString()); tick++; updateChartsAndUI(data); }
             catch (e) { console.error("Parse error:", e); }
