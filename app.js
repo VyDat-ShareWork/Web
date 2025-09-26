@@ -12,11 +12,32 @@ function formatDateTime(ts) {
 function makeLine(ctx, border, fill) {
     return new Chart(ctx, {
         type: "line",
-        data: { labels: [], datasets: [{ data: [], borderColor: border, backgroundColor: fill, fill: "origin", tension: .25 }] },
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                borderColor: border,
+                backgroundColor: fill,
+                fill: "origin",
+                tension: 0.25,
+                pointBackgroundColor: border,   
+                pointBorderColor: "#ffffff",    
+                pointRadius: 4,                
+                pointHoverRadius: 6  
+            }]
+        },
         options: {
-            responsive: true, maintainAspectRatio: false, animation: false,
-            plugins: { legend: { display: false }, decimation: { enabled: true, algorithm: "min-max", samples: 120 } },
-            scales: { x: { display: true }, y: { beginAtZero: true } }
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: {
+                legend: { display: false },
+                decimation: { enabled: true, algorithm: "min-max", samples: 120 }
+            },
+            scales: {
+                x: { display: true },
+                y: { beginAtZero: true }
+            }
         }
     });
 }
@@ -24,20 +45,35 @@ function makeLine(ctx, border, fill) {
 const rmsChart   = makeLine(document.getElementById("rmsChart"),  "rgba(109, 253, 210, 1)",   "rgba(0, 255, 157, 0.1)");
 const peakChart  = makeLine(document.getElementById("peakChart"), "rgba(253, 160, 180, 1)",  "rgba(255,99,132,.15)");
 const p2pChart   = makeLine(document.getElementById("p2pChart"),  "rgba(214, 212, 86, 1)",   "rgba(198, 207, 65, 0.12)");
-const crestChart = makeLine(document.getElementById("crestChart"),"rgba(181, 144, 255, 1)", "rgba(153,102,255,.15)");
+const crestChart = makeLine(document.getElementById("crestChart"),"rgba(181, 144, 255, 1)",  "rgba(153,102,255,.15)");
 
 const freqChart = new Chart(document.getElementById("freqChart"), {
     type: "bar",
-    data: { labels: [], datasets: [{ data: [], label: "Magnitude", backgroundColor: "#58c6f1ff", barPercentage: 0.4, categoryPercentage: 0.6 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    data: {
+        labels: [],
+        datasets: [{
+            data: [],
+            label: "Magnitude",
+            backgroundColor: "#58c6f1ff",
+            barPercentage: 0.4,
+            categoryPercentage: 0.6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+    }
 });
 
-const MAX_POINTS = 30;
+const MAX_POINTS = 20;
 function pushPoint(chart, x, y) {
     chart.data.labels.push(x);
     chart.data.datasets[0].data.push(y ?? 0);
     if (chart.data.labels.length > MAX_POINTS) {
-        chart.data.labels.shift(); chart.data.datasets[0].data.shift();
+        chart.data.labels.shift();
+        chart.data.datasets[0].data.shift();
     }
 }
 const el = id => document.getElementById(id);
@@ -67,7 +103,7 @@ function addOverviewRow(d) {
 }
 
 const brokerUrl = "wss://de6686b6c05c4c2985ed2a5c67d01b2c.s1.eu.hivemq.cloud:8884/mqtt";
-const options = { username: "hieuvm", password: "Hieu1234@!", protocol: "wss" };
+const options = { username: "RandD", password: "Sharework@123", protocol: "wss" };
 const topic ="Node1"; 
 
 const client = mqtt.connect(brokerUrl, options);
